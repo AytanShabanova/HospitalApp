@@ -1,2 +1,2 @@
-# HospitalConsoleAppSpring
+# HospitaAppSpring
 HospitalConsoleApp Spring
