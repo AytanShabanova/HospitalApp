@@ -1,108 +1,96 @@
-package com.example.hospitalmanagementsystem.service.security.doctor;//package com.example.securitylesson.service.security;
-//
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import jakarta.servlet.http.HttpServletRequest;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.AuthenticationException;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.security.core.userdetails.UserDetails;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.stereotype.Service;
-//
-//import static com.example.springsecurity.models.enums.response.ErrorResponseMessages.EMAIL_ALREADY_REGISTERED;
-//import static com.example.springsecurity.models.enums.response.ErrorResponseMessages.PASSWORD_INCORRECT;
-//
-//@Service
-//@RequiredArgsConstructor
-//@Slf4j
-//public class AuthBusinessServiceImpl implements AuthBusinessService {
-//
-//    private final AuthenticationManager authenticationManager;
-//    private final AccessTokenManager accessTokenManager;
-//    private final RefreshTokenManager refreshTokenManager;
-//    private final UserService userService;
-//    private final UserDetailsService userDetailsService;
-//    private final ObjectMapper objectMapper;
-//    private final TokenService tokenService;
-//
-//    @Override
-//    public LoginResponse login(LoginPayload payload) {
-//        LoginResponse loginResponse = prepareLoginResponse(payload.getEmail(), payload.isRememberMe());
-//        authenticate(payload);
-//
-//        return loginResponse;
-//    }
-//
-//    @Override
-//    public LoginResponse refresh(RefreshTokenPayload payload) {
-//        return prepareLoginResponse(
-//                refreshTokenManager.getEmail(payload.getRefreshToken()),
-//                payload.isRememberMe()
-//        );
-//    }
-//
-//    @Override
-//    public void logout(HttpServletRequest httpServletRequest) {
-//        tokenService.deleteToken(httpServletRequest);
-//
-//    }
-//
-//    @Override
-//    public void setAuthentication(String email) {
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-//
-//        SecurityContextHolder.getContext().setAuthentication(
-//                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities(), userDetails.getAuthorities())
-//        );
-//    }
-//
-//    @Override
-//    public RegisterResponse register(RegisterPayload registerPayload) {
-//
-//        return convertRegisterResponse(registerPayload);
-//    }
-//
-//    // private util methods
-//
-//    private void authenticate(LoginPayload request) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-//            );
-//
-//        } catch (AuthenticationException e) {
-//            throw BaseException.of(PASSWORD_INCORRECT);
-//        }
-//    }
-//
-//    private LoginResponse prepareLoginResponse(String email, boolean rememberMe) {
-//        UserEntity user = userService.getByEmail(email);
-//        LoginResponse response=LoginResponse.builder()
-//                .accessToken(accessTokenManager.generate(user))
-//                .refreshToken(refreshTokenManager.generate(
-//                        RefreshTokenDto.builder()
-//                                .user(user)
-//                                .rememberMe(rememberMe)
-//                                .build()
-//                ))
-//                .userInfo(LoginResponse.UserInfo.builder().id(user.getId()).email(user.getEmail()).build())
-//                .build();
-//       tokenService.saveToken(response);
-//        return response;
-//    }
-//
-//    private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
-//        if (userService.checkEmail(registerPayload.getEmail())) {
-//            throw BaseException.of(EMAIL_ALREADY_REGISTERED);
-//        }
-//        UserEntity user = objectMapper.convertValue(registerPayload, UserEntity.class);
-//        UserEntity userEntity = userService.save(user);
-//        RegisterResponse registerResponse = objectMapper.convertValue(userEntity, RegisterResponse.class);
-//        return registerResponse;
-//    }
-//}
+package com.example.hospitalmanagementsystem.service.security.doctor;
+
+import com.example.hospitalmanagementsystem.models.dto.DoctorDto;
+import com.example.hospitalmanagementsystem.models.entities.Doctor;
+import com.example.hospitalmanagementsystem.models.entities.Patient;
+import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
+import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
+import com.example.hospitalmanagementsystem.models.response.LoginResponse;
+import com.example.hospitalmanagementsystem.models.response.RegisterResponse;
+import com.example.hospitalmanagementsystem.service.doctor.DoctorService;
+import com.example.hospitalmanagementsystem.service.patient.PatientService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class AuthBusinessServiceImpl implements AuthBusinessService {
+
+    private final AuthenticationManager authenticationManager;
+    private final AccessTokenManagerDoctor accessTokenManagerDoctor;
+    private final DoctorService doctorService;
+
+    private final UserDetailsService userDetailsService;
+    private final ObjectMapper objectMapper;
+    private final PasswordEncoder passwordEncoder;
+
+
+    @Override
+    public LoginResponse login(LoginPayload payload) {
+        LoginResponse loginResponse = prepareLoginResponse(payload.getEmail());
+     //   authenticate(payload);
+
+        return loginResponse;
+    }
+
+
+    @Override
+    public void setAuthentication(String email) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities(), userDetails.getAuthorities())
+        );
+    }
+
+    @Override
+    public RegisterResponse register(RegisterPayload registerPayload) {
+
+        return convertRegisterResponse(registerPayload);
+    }
+
+    // private util methods
+
+    private void authenticate(LoginPayload request) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+            );
+
+        } catch (AuthenticationException e) {
+            throw new  RuntimeException("authentication error");
+        }
+    }
+
+    private LoginResponse prepareLoginResponse(String email) {
+        Doctor  doctor = doctorService.findDoctorByEmail(email);
+        return LoginResponse.builder()
+                .accessToken(accessTokenManagerDoctor.generate(doctor))
+                .email(doctor.getEmail())
+                .build();
+    }
+//burada doctoru doctordtoya cevirmisem ehdiyac var idimi?
+    private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
+        Doctor doctor = objectMapper.convertValue(registerPayload, Doctor.class);
+        String password=passwordEncoder.encode(doctor.getPassword());
+
+
+        doctor.setPassword(password);
+        doctor.setRole("ROLE_USER");
+       DoctorDto doctorDto= objectMapper.convertValue(doctor, DoctorDto.class);
+        Doctor doctorEntity = doctorService.saveDoctor(doctorDto);
+        return objectMapper.convertValue(doctorEntity, RegisterResponse.class);
+    }
+}

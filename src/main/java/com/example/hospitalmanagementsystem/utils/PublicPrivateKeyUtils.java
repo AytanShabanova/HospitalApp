@@ -33,7 +33,7 @@ public class PublicPrivateKeyUtils {
     private PrivateKey preparePrivateKey() {
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
-            PKCS8EncodedKeySpec keySpecPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(securityProperties.getJwtData().getPrivateKey()));
+            PKCS8EncodedKeySpec keySpecPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(securityProperties.getJwt().getPrivateKey()));
             return kf.generatePrivate(keySpecPKCS8);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
@@ -42,10 +42,10 @@ public class PublicPrivateKeyUtils {
     }
 
     private PublicKey preparePublicKey() {
-        System.out.println(securityProperties.getJwtData());
+        System.out.println(securityProperties.getJwt());
         try {
             KeyFactory kf = KeyFactory.getInstance("RSA");
-            X509EncodedKeySpec keySpecX509 = new X509EncodedKeySpec(Base64.getDecoder().decode(securityProperties.getJwtData().getPublicKey()));
+            X509EncodedKeySpec keySpecX509 = new X509EncodedKeySpec(Base64.getDecoder().decode(securityProperties.getJwt().getPublicKey()));
             return kf.generatePublic(keySpecX509);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();

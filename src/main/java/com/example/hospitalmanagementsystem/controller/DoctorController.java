@@ -1,6 +1,7 @@
 package com.example.hospitalmanagementsystem.controller;
 import com.example.hospitalmanagementsystem.models.dto.DoctorDto;
 import com.example.hospitalmanagementsystem.models.dto.ResponseDto;
+import com.example.hospitalmanagementsystem.models.entities.Doctor;
 import com.example.hospitalmanagementsystem.response.DoctorResponse;
 import com.example.hospitalmanagementsystem.service.doctor.DoctorServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class DoctorController {
    return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.success().getData());
     }
     @GetMapping(name = "/allDoctors")
-    public List<DoctorDto>allDoctor(){
-       return doctorServiceImpl.getAllDoctors();
+    public List<Doctor>allDoctor(){
+       return doctorServiceImpl.getAll();
     }
     @GetMapping("/findByNameDoctor")
     public ResponseDto<DoctorResponse> getDoctorByName(@RequestParam(value = "doctorName") String doctorName){

@@ -1,18 +1,19 @@
 package com.example.hospitalmanagementsystem.service.security.doctor;
 
-import jakarta.servlet.http.HttpServletRequest;
 
+import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
+import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
+import com.example.hospitalmanagementsystem.models.response.LoginResponse;
+import com.example.hospitalmanagementsystem.models.response.RegisterResponse;
 
 public interface AuthBusinessService {
 
-//    LoginResponse login(LoginPayload payload);
-//
-//    LoginResponse refresh(RefreshTokenPayload payload);
+    LoginResponse login(LoginPayload payload);
 
-    void logout(HttpServletRequest httpServletRequest);
+
 
     void setAuthentication(String email);
-//    RegisterResponse register(RegisterPayload registerPayload);
+    RegisterResponse register(RegisterPayload registerPayload);
 
 
 }

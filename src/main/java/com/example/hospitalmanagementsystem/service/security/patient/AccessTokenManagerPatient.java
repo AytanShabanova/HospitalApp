@@ -1,11 +1,9 @@
 //package com.example.hospitalmanagementsystem.service.security.patient;
 //
-//
 //import com.example.hospitalmanagementsystem.models.entities.Patient;
 //import com.example.hospitalmanagementsystem.security.proporties.SecurityProperties;
 //import com.example.hospitalmanagementsystem.service.base.TokenGenerator;
 //import com.example.hospitalmanagementsystem.service.base.TokenReader;
-//import com.example.hospitalmanagementsystem.service.getters.EmailGetter;
 //import com.example.hospitalmanagementsystem.utils.PublicPrivateKeyUtils;
 //import io.jsonwebtoken.Claims;
 //import io.jsonwebtoken.Jwts;
@@ -16,13 +14,12 @@
 //
 //import java.util.Date;
 //
-//import static com.example.hospitalmanagementsystem.constants.TokenConstants.EMAIL_KEY;
-//
 //
 //@Component
 //@Slf4j
 //@RequiredArgsConstructor
-//public class AccessTokenManager implements TokenGenerator<Patient>, TokenReader<Claims>, EmailGetter {
+//public class AccessTokenManagerPatient implements TokenGenerator<Patient>,
+//        TokenReader<Claims> {
 //
 //    private final SecurityProperties securityProperties;
 //
@@ -32,10 +29,9 @@
 //        Claims claims = Jwts.claims();
 //        claims.put("email", obj.getEmail());
 //        claims.put("role", obj.getRole());
-//        claims.put("name", obj.getName());
-//        claims.put("surname", obj.getSurName());
+//
 //        Date now = new Date();
-//        Date exp = new Date(now.getTime() + securityProperties.getJwtData().getAccessTokenValidityTime());
+//        Date exp = new Date(now.getTime() + securityProperties.getJwt().getAccessTokenValidityTime());
 //
 //        return Jwts.builder()
 //                .setSubject(String.valueOf(obj.getId()))
@@ -57,20 +53,16 @@
 //                    .parseClaimsJws(token)
 //                    .getBody();
 //        } catch (Exception ex) {
-//            log.info(ex.getMessage());
+//            throw new RuntimeException("test");
 //        }
 //
 //        return claims;
 //    }
 //
-//    @Override
 //    public String getEmail(String token) {
-//        if (read(token) != null) {
-//            return read(token).get(EMAIL_KEY, String.class);
-//        } else {
-//            return null;
-//        }
-//
-//
+//        Claims claims = read(token);
+//        return claims.get("email", String.class);
 //    }
+//
+//
 //}

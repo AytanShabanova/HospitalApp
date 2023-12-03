@@ -1,56 +1,47 @@
-package com.example.hospitalmanagementsystem.service.security.patient;//package com.example.securitylesson.service.security;
-//
-//
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import jakarta.servlet.http.HttpServletRequest;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+package com.example.hospitalmanagementsystem.service.security.patient;
+
+import com.example.hospitalmanagementsystem.models.entities.Patient;
+import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
+import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
+import com.example.hospitalmanagementsystem.models.response.LoginResponse;
+import com.example.hospitalmanagementsystem.models.response.RegisterResponse;
+import com.example.hospitalmanagementsystem.service.patient.PatientService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.AuthenticationException;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.stereotype.Service;
 //
-//import static com.example.springsecurity.models.enums.response.ErrorResponseMessages.EMAIL_ALREADY_REGISTERED;
-//import static com.example.springsecurity.models.enums.response.ErrorResponseMessages.PASSWORD_INCORRECT;
 //
-//@Service
+//@Service("authBusinessServicePatient")
 //@RequiredArgsConstructor
 //@Slf4j
 //public class AuthBusinessServiceImpl implements AuthBusinessService {
 //
 //    private final AuthenticationManager authenticationManager;
-//    private final AccessTokenManager accessTokenManager;
-//    private final RefreshTokenManager refreshTokenManager;
-//    private final UserService userService;
+//    private final AccessTokenManagerPatient accessTokenManagerPatient;
+//    private final PatientService patientService;
+//
 //    private final UserDetailsService userDetailsService;
 //    private final ObjectMapper objectMapper;
-//    private final TokenService tokenService;
+//    private final PasswordEncoder passwordEncoder;
+//
 //
 //    @Override
 //    public LoginResponse login(LoginPayload payload) {
-//        LoginResponse loginResponse = prepareLoginResponse(payload.getEmail(), payload.isRememberMe());
-//        authenticate(payload);
+//        LoginResponse loginResponse = prepareLoginResponse(payload.getEmail());
+//     //   authenticate(payload);
 //
 //        return loginResponse;
 //    }
 //
-//    @Override
-//    public LoginResponse refresh(RefreshTokenPayload payload) {
-//        return prepareLoginResponse(
-//                refreshTokenManager.getEmail(payload.getRefreshToken()),
-//                payload.isRememberMe()
-//        );
-//    }
-//
-//    @Override
-//    public void logout(HttpServletRequest httpServletRequest) {
-//        tokenService.deleteToken(httpServletRequest);
-//
-//    }
 //
 //    @Override
 //    public void setAuthentication(String email) {
@@ -76,33 +67,25 @@ package com.example.hospitalmanagementsystem.service.security.patient;//package 
 //            );
 //
 //        } catch (AuthenticationException e) {
-//            throw BaseException.of(PASSWORD_INCORRECT);
+//            throw new  RuntimeException("authentication error");
 //        }
 //    }
 //
-//    private LoginResponse prepareLoginResponse(String email, boolean rememberMe) {
-//        UserEntity user = userService.getByEmail(email);
-//        LoginResponse response=LoginResponse.builder()
-//                .accessToken(accessTokenManager.generate(user))
-//                .refreshToken(refreshTokenManager.generate(
-//                        RefreshTokenDto.builder()
-//                                .user(user)
-//                                .rememberMe(rememberMe)
-//                                .build()
-//                ))
-//                .userInfo(LoginResponse.UserInfo.builder().id(user.getId()).email(user.getEmail()).build())
+//    private LoginResponse prepareLoginResponse(String email) {
+//        Patient patient = patientService.findPatientByEmail(email);
+//        return LoginResponse.builder()
+//                .accessToken(accessTokenManagerPatient.generate(patient))
+//                .email(patient.getEmail())
 //                .build();
-//       tokenService.saveToken(response);
-//        return response;
 //    }
 //
 //    private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
-//        if (userService.checkEmail(registerPayload.getEmail())) {
-//            throw BaseException.of(EMAIL_ALREADY_REGISTERED);
-//        }
-//        UserEntity user = objectMapper.convertValue(registerPayload, UserEntity.class);
-//        UserEntity userEntity = userService.save(user);
-//        RegisterResponse registerResponse = objectMapper.convertValue(userEntity, RegisterResponse.class);
-//        return registerResponse;
+//        Patient patient = objectMapper.convertValue(registerPayload, Patient.class);
+//        String password=passwordEncoder.encode(patient.getPassword());
+//
+//        patient.setPassword(password);
+//        patient.setRole("ROLE_USER");
+//        Patient patientEntity = patientService.savePatient(patient);
+//        return objectMapper.convertValue(patientEntity, RegisterResponse.class);
 //    }
 //}
