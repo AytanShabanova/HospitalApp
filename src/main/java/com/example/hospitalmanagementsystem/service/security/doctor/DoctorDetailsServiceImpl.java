@@ -1,4 +1,4 @@
-package com.example.hospitalmanagementsystem.service.security;
+package com.example.hospitalmanagementsystem.service.security.doctor;
 
 import com.example.hospitalmanagementsystem.models.entities.Doctor;
 import com.example.hospitalmanagementsystem.models.security.DoctorSecurity;

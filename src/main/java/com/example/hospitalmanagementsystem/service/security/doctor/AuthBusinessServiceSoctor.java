@@ -6,7 +6,7 @@ import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
 import com.example.hospitalmanagementsystem.models.response.LoginResponse;
 import com.example.hospitalmanagementsystem.models.response.RegisterResponse;
 
-public interface AuthBusinessService {
+public interface AuthBusinessServiceSoctor {
 
     LoginResponse login(LoginPayload payload);
 

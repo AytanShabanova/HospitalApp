@@ -1,13 +1,11 @@
-package com.example.hospitalmanagementsystem.service.security.doctor;
+package com.example.hospitalmanagementsystem.service.security.patient;
 
-import com.example.hospitalmanagementsystem.models.dto.DoctorDto;
-import com.example.hospitalmanagementsystem.models.entities.Doctor;
+import com.example.hospitalmanagementsystem.models.dto.PatientDto;
 import com.example.hospitalmanagementsystem.models.entities.Patient;
 import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
 import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
 import com.example.hospitalmanagementsystem.models.response.LoginResponse;
 import com.example.hospitalmanagementsystem.models.response.RegisterResponse;
-import com.example.hospitalmanagementsystem.service.doctor.DoctorService;
 import com.example.hospitalmanagementsystem.service.patient.PatientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-@Service
+@Service("authBusinessServicePatient")
 @RequiredArgsConstructor
 @Slf4j
-public class AuthBusinessServiceImpl implements AuthBusinessService {
+public class AuthBusinessServicePatientImpl implements AuthBusinessServicePatient {
 
     private final AuthenticationManager authenticationManager;
-    private final AccessTokenManagerDoctor accessTokenManagerDoctor;
-    private final DoctorService doctorService;
+    private final AccessTokenManagerPatient accessTokenManagerPatient;
+    private final PatientService patientService;
 
     private final UserDetailsService userDetailsService;
     private final ObjectMapper objectMapper;
@@ -75,22 +73,22 @@ public class AuthBusinessServiceImpl implements AuthBusinessService {
     }
 
     private LoginResponse prepareLoginResponse(String email) {
-        Doctor  doctor = doctorService.findDoctorByEmail(email);
+        Patient patient = patientService.findPatientByEmail(email);
         return LoginResponse.builder()
-                .accessToken(accessTokenManagerDoctor.generate(doctor))
-                .email(doctor.getEmail())
+                .accessToken(accessTokenManagerPatient.generate(patient))
+                .email(patient.getEmail())
                 .build();
     }
-//burada doctoru doctordtoya cevirmisem ehdiyac var idimi?
+
     private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
-        Doctor doctor = objectMapper.convertValue(registerPayload, Doctor.class);
-        String password=passwordEncoder.encode(doctor.getPassword());
+        Patient patient = objectMapper.convertValue(registerPayload, Patient.class);
+        String password=passwordEncoder.encode(patient.getPassword());
 
-
-        doctor.setPassword(password);
-        doctor.setRole("ROLE_USER");
-       DoctorDto doctorDto= objectMapper.convertValue(doctor, DoctorDto.class);
-        Doctor doctorEntity = doctorService.saveDoctor(doctorDto);
-        return objectMapper.convertValue(doctorEntity, RegisterResponse.class);
+        patient.setPassword(password);
+        patient.setRole("ROLE_USER");
+        //burada buna ehdiyac var idimi yoxsa basqacure etmek olardimi
+      PatientDto patientDto=  objectMapper.convertValue(patient, PatientDto.class);
+        Patient patientEntity = patientService.savePatient(patientDto);
+        return objectMapper.convertValue(patientEntity, RegisterResponse.class);
     }
 }
