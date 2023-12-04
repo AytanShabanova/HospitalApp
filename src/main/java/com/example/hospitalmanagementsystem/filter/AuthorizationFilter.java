@@ -36,7 +36,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                                 decodeToken
                         )
                 );
-            } else if (null != accessTokenManagerPatient.getEmail(decodeToken) && tokenService.tokenExist(decodeToken)) {
+            } else if (null != accessTokenManagerPatient.getEmail(decodeToken)) {
                 authBusinessServicePatient.setAuthentication(
                         accessTokenManagerPatient.getEmail(
                                 decodeToken
