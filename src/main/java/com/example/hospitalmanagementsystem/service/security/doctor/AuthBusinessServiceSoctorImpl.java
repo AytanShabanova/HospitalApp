@@ -38,7 +38,7 @@ public class AuthBusinessServiceSoctorImpl implements AuthBusinessServiceSoctor 
     @Override
     public LoginResponse login(LoginPayload payload) {
         LoginResponse loginResponse = prepareLoginResponse(payload.getEmail());
-     //   authenticate(payload);
+       authenticate(payload);
 
         return loginResponse;
     }
@@ -55,6 +55,7 @@ public class AuthBusinessServiceSoctorImpl implements AuthBusinessServiceSoctor 
 
     @Override
     public RegisterResponse register(RegisterPayload registerPayload) {
+
 
         return convertRegisterResponse(registerPayload);
     }

@@ -22,6 +22,8 @@ public class DoctorServiceImpl implements DoctorService{
        return doctorRepo.findAll();
     }
 
+
+
     @Override
     public Doctor saveDoctor(DoctorDto doctorDto) {
       Doctor doctor=  objectMapper.convertValue(doctorDto, Doctor.class);

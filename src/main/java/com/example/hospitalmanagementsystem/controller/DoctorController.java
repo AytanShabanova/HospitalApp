@@ -15,11 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DoctorController {
     private final DoctorServiceImpl doctorServiceImpl;
-    @PostMapping(name = "/saveDoctor")
-    public ResponseEntity<Void> saveDoctor(@RequestBody DoctorDto doctorDto){
-   doctorServiceImpl.saveDoctor(doctorDto);
-   return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.success().getData());
-    }
+//    @PostMapping(name = "/saveDoctor")
+//    public ResponseEntity<Void> saveDoctor(@RequestBody DoctorDto doctorDto){
+//   doctorServiceImpl.saveDoctor(doctorDto);
+//   return ResponseEntity.status(HttpStatus.OK).body(ResponseDto.success().getData());
+//    }
     @GetMapping(name = "/allDoctors")
     public List<Doctor>allDoctor(){
        return doctorServiceImpl.getAll();

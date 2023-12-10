@@ -42,7 +42,10 @@ public class WebSecurityConfig {
                     // Swagger UI
                     request.requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll();
                     // Auth URLs
-                    request.requestMatchers("/v1/employee/**").permitAll();
+                    request.requestMatchers("v2/auth/doctor/**").permitAll();
+                    request.requestMatchers("/v1/auth/patient/**").permitAll();
+                    request.requestMatchers("/doctor/**").permitAll();
+                    request.requestMatchers("/patient/**").permitAll();
 
 
                 })

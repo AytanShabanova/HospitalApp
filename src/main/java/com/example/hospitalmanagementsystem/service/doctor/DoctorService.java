@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public interface DoctorService {
     List<Doctor> getAll();
-    Doctor saveDoctor(DoctorDto doctor);
+   Doctor saveDoctor(DoctorDto doctor);
 
     Doctor findDoctorByEmail(String email);
 

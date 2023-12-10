@@ -21,7 +21,7 @@ public class AuthControllerDoctor {
     public ResponseDto<LoginResponse>login(@RequestBody LoginPayload loginPayload){
         return ResponseDto.success(authBusinessServiceSoctor.login(loginPayload));
     }
-    @PostMapping
+    @PostMapping("/register")
     public ResponseDto<RegisterResponse>register(@RequestBody RegisterPayload registerPayload){
         return ResponseDto.success(authBusinessServiceSoctor.register(registerPayload));
     }
