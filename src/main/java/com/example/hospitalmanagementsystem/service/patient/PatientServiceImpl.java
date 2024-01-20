@@ -26,6 +26,10 @@ public class PatientServiceImpl implements PatientService{
 
     }
 
+    @Override
+    public boolean checkEmail(String email) {
+        return patientRepo.existsByEmail(email);
+    }
 
 
 //    @Override

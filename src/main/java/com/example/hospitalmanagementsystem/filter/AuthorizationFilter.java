@@ -1,7 +1,7 @@
 package com.example.hospitalmanagementsystem.filter;
 
 import com.example.hospitalmanagementsystem.service.security.doctor.AccessTokenManagerDoctor;
-import com.example.hospitalmanagementsystem.service.security.doctor.AuthBusinessServiceSoctor;
+import com.example.hospitalmanagementsystem.service.security.doctor.AuthBusinessServiceDoctor;
 import com.example.hospitalmanagementsystem.service.security.patient.AccessTokenManagerPatient;
 import com.example.hospitalmanagementsystem.service.security.patient.AuthBusinessServicePatient;
 import jakarta.servlet.FilterChain;
@@ -21,7 +21,7 @@ import java.util.Objects;
 public class AuthorizationFilter extends OncePerRequestFilter {
     private final AccessTokenManagerDoctor accessTokenManagerDoctor;
     private final AccessTokenManagerPatient accessTokenManagerPatient;
-    private final AuthBusinessServiceSoctor authBusinessServiceSoctor;
+    private final AuthBusinessServiceDoctor authBusinessServiceDoctor;
     private final AuthBusinessServicePatient authBusinessServicePatient;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -31,7 +31,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
             String decodeToken = token.substring(7);
             System.out.println("decodeToken     :" + decodeToken);
             if (null != accessTokenManagerDoctor.getEmail(decodeToken)) {
-                authBusinessServiceSoctor.setAuthentication(
+                authBusinessServiceDoctor.setAuthentication(
                         accessTokenManagerDoctor.getEmail(
                                 decodeToken
                         )

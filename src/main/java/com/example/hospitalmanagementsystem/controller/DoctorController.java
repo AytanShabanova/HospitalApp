@@ -1,12 +1,10 @@
 package com.example.hospitalmanagementsystem.controller;
-import com.example.hospitalmanagementsystem.models.dto.DoctorDto;
 import com.example.hospitalmanagementsystem.models.dto.ResponseDto;
 import com.example.hospitalmanagementsystem.models.entities.Doctor;
 import com.example.hospitalmanagementsystem.response.DoctorResponse;
 import com.example.hospitalmanagementsystem.service.doctor.DoctorServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 

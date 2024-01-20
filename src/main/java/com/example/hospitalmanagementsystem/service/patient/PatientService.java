@@ -12,5 +12,5 @@ public interface PatientService {
 
 
 
-//    boolean checkEmail(String email);
+    boolean checkEmail(String email);
 }

@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AuthBusinessServiceSoctorImpl implements AuthBusinessServiceSoctor {
+public class AuthBusinessServiceDoctorImpl implements AuthBusinessServiceDoctor {
 
     private final AuthenticationManager authenticationManager;
     private final AccessTokenManagerDoctor accessTokenManagerDoctor;
@@ -49,7 +49,8 @@ public class AuthBusinessServiceSoctorImpl implements AuthBusinessServiceSoctor 
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
         SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities(), userDetails.getAuthorities())
+                new UsernamePasswordAuthenticationToken(userDetails,
+                        userDetails.getAuthorities(), userDetails.getAuthorities())
         );
     }
 
@@ -69,7 +70,7 @@ public class AuthBusinessServiceSoctorImpl implements AuthBusinessServiceSoctor 
             );
 
         } catch (AuthenticationException e) {
-            throw new  RuntimeException("authentication error");
+       e.printStackTrace();
         }
     }
 

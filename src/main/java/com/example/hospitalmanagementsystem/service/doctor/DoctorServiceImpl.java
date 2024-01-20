@@ -38,7 +38,7 @@ public class DoctorServiceImpl implements DoctorService{
 
     @Override
     public boolean checkEmail(String email) {
-        return false;
+        return doctorRepo.existsByEmail(email);
     }
 
     @Override

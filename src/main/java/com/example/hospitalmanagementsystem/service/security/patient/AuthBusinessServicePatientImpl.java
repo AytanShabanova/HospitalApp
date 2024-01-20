@@ -68,7 +68,7 @@ public class AuthBusinessServicePatientImpl implements AuthBusinessServicePatien
             );
 
         } catch (AuthenticationException e) {
-            throw new  RuntimeException("authentication error");
+            e.printStackTrace();
         }
     }
 
@@ -83,7 +83,6 @@ public class AuthBusinessServicePatientImpl implements AuthBusinessServicePatien
     private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
         Patient patient = objectMapper.convertValue(registerPayload, Patient.class);
         String password=passwordEncoder.encode(patient.getPassword());
-
         patient.setPassword(password);
         patient.setRole("ROLE_USER");
         //burada buna ehdiyac var idimi yoxsa basqacure etmek olardimi
