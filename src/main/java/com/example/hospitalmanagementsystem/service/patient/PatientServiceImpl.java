@@ -1,19 +1,22 @@
 package com.example.hospitalmanagementsystem.service.patient;
 
 import com.example.hospitalmanagementsystem.models.dto.PatientDto;
+import com.example.hospitalmanagementsystem.models.entities.Doctor;
 import com.example.hospitalmanagementsystem.models.entities.Patient;
+import com.example.hospitalmanagementsystem.repo.DoctorRepo;
 import com.example.hospitalmanagementsystem.repo.PatientRepo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
 @Service
-@RequiredArgsConstructor
-public class PatientServiceImpl implements PatientService{
+@RequiredArgsConstructor public class PatientServiceImpl implements PatientService{
     private final PatientRepo patientRepo;
     private final ObjectMapper objectMapper;
+    private final DoctorRepo doctorRepo;
     @Override
     public Patient savePatient(PatientDto patientDto) {
        Patient patient= objectMapper.convertValue(patientDto, Patient.class);
@@ -30,6 +33,8 @@ public class PatientServiceImpl implements PatientService{
     public boolean checkEmail(String email) {
         return patientRepo.existsByEmail(email);
     }
+
+
 
 
 //    @Override

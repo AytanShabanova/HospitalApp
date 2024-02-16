@@ -2,6 +2,7 @@ package com.example.hospitalmanagementsystem.service.security.doctor;
 
 import com.example.hospitalmanagementsystem.models.dto.DoctorDto;
 import com.example.hospitalmanagementsystem.models.entities.Doctor;
+import com.example.hospitalmanagementsystem.models.payload.DoctorRegisterPayload;
 import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
 import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
 import com.example.hospitalmanagementsystem.models.response.LoginResponse;
@@ -55,10 +56,10 @@ public class AuthBusinessServiceDoctorImpl implements AuthBusinessServiceDoctor 
     }
 
     @Override
-    public RegisterResponse register(RegisterPayload registerPayload) {
+    public RegisterResponse register(DoctorRegisterPayload doctorRegisterPayload) {
 
 
-        return convertRegisterResponse(registerPayload);
+        return convertRegisterResponse(doctorRegisterPayload);
     }
 
     // private util methods
@@ -82,13 +83,13 @@ public class AuthBusinessServiceDoctorImpl implements AuthBusinessServiceDoctor 
                 .build();
     }
 //burada doctoru doctordtoya cevirmisem ehdiyac var idimi?
-    private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
-        Doctor doctor = objectMapper.convertValue(registerPayload, Doctor.class);
+    private RegisterResponse convertRegisterResponse(DoctorRegisterPayload doctorRegisterPayload) {
+        Doctor doctor = objectMapper.convertValue(doctorRegisterPayload, Doctor.class);
         String password=passwordEncoder.encode(doctor.getPassword());
 
 
         doctor.setPassword(password);
-        doctor.setRole("ROLE_USER");
+        doctor.setRole("DOCTOR");
        DoctorDto doctorDto= objectMapper.convertValue(doctor, DoctorDto.class);
         Doctor doctorEntity = doctorService.saveDoctor(doctorDto);
         return objectMapper.convertValue(doctorEntity, RegisterResponse.class);

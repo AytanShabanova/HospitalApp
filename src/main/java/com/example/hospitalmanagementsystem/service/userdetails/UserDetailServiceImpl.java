@@ -1,9 +1,11 @@
 package com.example.hospitalmanagementsystem.service.userdetails;
 
 import com.example.hospitalmanagementsystem.models.entities.Doctor;
+import com.example.hospitalmanagementsystem.models.entities.Hospital;
 import com.example.hospitalmanagementsystem.models.entities.Patient;
 import com.example.hospitalmanagementsystem.models.security.UserDetailSecurity;
 import com.example.hospitalmanagementsystem.service.doctor.DoctorService;
+import com.example.hospitalmanagementsystem.service.hospital.HospitalService;
 import com.example.hospitalmanagementsystem.service.patient.PatientService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
     DoctorService doctorService;
     PatientService patientService;
+    HospitalService hospitalService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if(doctorService.checkEmail(username)){
@@ -38,6 +41,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
             return UserDetailSecurity.builder().email(patient.getEmail()).password(patient.getPassword())
                     .authorities(authorities).build();
 
+     } else if (hospitalService.checkEmail(username)) {
+           Hospital hospital=hospitalService.findHospitalByEmail(username);
+           List<SimpleGrantedAuthority>authorities=new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(hospital.getRole()));
+            return UserDetailSecurity.builder().email(hospital.getEmail()).password(hospital.getPassword())
+                    .authorities(authorities).build();
         }
         return null;
     }

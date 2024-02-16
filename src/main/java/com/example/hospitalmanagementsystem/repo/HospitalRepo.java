@@ -7,4 +7,7 @@ import java.util.Optional;
 
 public interface HospitalRepo extends JpaRepository<Hospital,Integer> {
     Optional<Hospital>findHospitalByHospitalName(String name);
+    Optional<Hospital>findHospitalById(Integer id);
+    Boolean existsHospitalByEmail(String email);
+    Optional<Hospital>findHospitalByEmail(String email);
 }

@@ -1,6 +1,7 @@
 package com.example.hospitalmanagementsystem.controller;
 import com.example.hospitalmanagementsystem.models.dto.ResponseDto;
 import com.example.hospitalmanagementsystem.models.entities.Doctor;
+
 import com.example.hospitalmanagementsystem.response.DoctorResponse;
 import com.example.hospitalmanagementsystem.service.doctor.DoctorServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,11 @@ public class DoctorController {
      return ResponseDto.success(doctorServiceImpl.findDoctorByName(doctorName));
 
     }
+//    @PutMapping("/changePassword/{doctorEmail}")
+//    public void changePassword(@RequestBody ChangePasswordPayload changePasswordPayload,
+//                               @PathVariable(name = "studentId") Integer doctorId) {
+//        doctorServiceImpl.changePassword(changePasswordPayload, doctorId);
+//    }
 
 
 

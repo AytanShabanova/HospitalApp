@@ -3,6 +3,7 @@ package com.example.hospitalmanagementsystem.service.security.patient;
 import com.example.hospitalmanagementsystem.models.dto.PatientDto;
 import com.example.hospitalmanagementsystem.models.entities.Patient;
 import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
+import com.example.hospitalmanagementsystem.models.payload.PatientRegisterPayload;
 import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
 import com.example.hospitalmanagementsystem.models.response.LoginResponse;
 import com.example.hospitalmanagementsystem.models.response.RegisterResponse;
@@ -54,9 +55,9 @@ public class AuthBusinessServicePatientImpl implements AuthBusinessServicePatien
     }
 
     @Override
-    public RegisterResponse register(RegisterPayload registerPayload) {
+    public RegisterResponse register(PatientRegisterPayload patientRegisterPayload) {
 
-        return convertRegisterResponse(registerPayload);
+        return convertRegisterResponse(patientRegisterPayload);
     }
 
     // private util methods
@@ -80,11 +81,11 @@ public class AuthBusinessServicePatientImpl implements AuthBusinessServicePatien
                 .build();
     }
 
-    private RegisterResponse convertRegisterResponse(RegisterPayload registerPayload) {
-        Patient patient = objectMapper.convertValue(registerPayload, Patient.class);
+    private RegisterResponse convertRegisterResponse(PatientRegisterPayload patientRegisterPayload) {
+        Patient patient = objectMapper.convertValue(patientRegisterPayload, Patient.class);
         String password=passwordEncoder.encode(patient.getPassword());
         patient.setPassword(password);
-        patient.setRole("ROLE_USER");
+        patient.setRole("PATIENT");
         //burada buna ehdiyac var idimi yoxsa basqacure etmek olardimi
       PatientDto patientDto=  objectMapper.convertValue(patient, PatientDto.class);
         Patient patientEntity = patientService.savePatient(patientDto);

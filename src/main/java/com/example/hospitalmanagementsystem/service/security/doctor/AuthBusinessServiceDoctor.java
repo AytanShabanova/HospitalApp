@@ -1,6 +1,7 @@
 package com.example.hospitalmanagementsystem.service.security.doctor;
 
 
+import com.example.hospitalmanagementsystem.models.payload.DoctorRegisterPayload;
 import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
 import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
 import com.example.hospitalmanagementsystem.models.response.LoginResponse;
@@ -13,7 +14,7 @@ public interface AuthBusinessServiceDoctor {
 
 
     void setAuthentication(String email);
-    RegisterResponse register(RegisterPayload registerPayload);
+    RegisterResponse register(DoctorRegisterPayload doctorRegisterPayload);
 
 
 }

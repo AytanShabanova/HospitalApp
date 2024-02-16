@@ -9,4 +9,5 @@ public interface DoctorRepo extends JpaRepository<Doctor,Integer> {
     Optional<Doctor>findDoctorByEmail(String email);
     Optional<Doctor>findDoctorByName(String name);
     Boolean existsByEmail(String email);
+    Doctor findDoctorById(Integer id);
 }

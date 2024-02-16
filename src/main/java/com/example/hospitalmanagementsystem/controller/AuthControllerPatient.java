@@ -2,6 +2,7 @@ package com.example.hospitalmanagementsystem.controller;
 
 import com.example.hospitalmanagementsystem.models.dto.ResponseDto;
 import com.example.hospitalmanagementsystem.models.payload.LoginPayload;
+import com.example.hospitalmanagementsystem.models.payload.PatientRegisterPayload;
 import com.example.hospitalmanagementsystem.models.payload.RegisterPayload;
 import com.example.hospitalmanagementsystem.models.response.LoginResponse;
 
@@ -23,7 +24,7 @@ public class AuthControllerPatient {
 return ResponseDto.success(authBusinessServicePatient.login(loginPayload));
  }
  @PostMapping("/register")
-    public ResponseDto<RegisterResponse>register(@RequestBody RegisterPayload registerPayload){
+    public ResponseDto<RegisterResponse>register(@RequestBody PatientRegisterPayload registerPayload){
      return ResponseDto.success(authBusinessServicePatient.register(registerPayload));
 
 

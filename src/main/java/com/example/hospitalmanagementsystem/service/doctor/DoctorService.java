@@ -3,6 +3,7 @@ package com.example.hospitalmanagementsystem.service.doctor;
 import com.example.hospitalmanagementsystem.models.dto.DoctorDto;
 import com.example.hospitalmanagementsystem.models.entities.Doctor;
 import com.example.hospitalmanagementsystem.models.entities.Patient;
+
 import com.example.hospitalmanagementsystem.repo.DoctorRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,5 @@ public interface DoctorService {
 
     boolean checkEmail(String email);
     Doctor findDoctorByName(String name);
+
 }

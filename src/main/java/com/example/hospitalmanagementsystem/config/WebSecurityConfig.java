@@ -1,7 +1,9 @@
 package com.example.hospitalmanagementsystem.config;
+
 import com.example.hospitalmanagementsystem.filter.AuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,12 +41,13 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(@NotNull AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+    public SecurityFilterChain securityFilterChain(@NotNull HttpSecurity http,
                                                    AuthorizationFilter authorizationFilter) throws Exception {
         return http
                 .authorizeHttpRequests(request -> {
@@ -53,8 +56,11 @@ public class WebSecurityConfig {
                     // Auth URLs
                     request.requestMatchers("v2/auth/doctor/**").permitAll();
                     request.requestMatchers("/v1/auth/patient/**").permitAll();
-                    request.requestMatchers("/doctor/**").permitAll();
-                    request.requestMatchers("/patient/**").permitAll();
+                    request.requestMatchers("/doctor/**").hasRole("DOCTOR");
+                    request.requestMatchers("/patient/**").hasRole("PATIENT");
+                    request.requestMatchers("v2/auth/hospital/**").permitAll();
+                    request.requestMatchers("/hospital/**").hasRole("HOSPITAL");
+
 
 
                 })
@@ -70,5 +76,6 @@ public class WebSecurityConfig {
                 .ignoring()
                 .requestMatchers("/v3/api/docs/" , "/swagger-ui/"));
     }
+
 
 }

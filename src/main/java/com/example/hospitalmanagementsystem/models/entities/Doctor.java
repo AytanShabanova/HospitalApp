@@ -1,12 +1,15 @@
 package com.example.hospitalmanagementsystem.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +25,7 @@ public class Doctor {
     String name;
     String surName;
     @Column(unique = true)
+    @Email
     String email;
     String password;
     String role;
